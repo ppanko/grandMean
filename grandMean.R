@@ -100,6 +100,8 @@ grandMean <- function(data, contNames = NULL, discNames = NULL,
                     col.names = colNames
                     )
 
+    }
+
 }
 
 ## Function for the mode
