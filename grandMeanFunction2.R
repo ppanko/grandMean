@@ -124,7 +124,7 @@ aggData <- function(data, subset, func, id) {
     ##
     if(is.null(subset)) {
         ##
-        return(NULL)
+        return()
     } else {
         ##
         idVar <- data[,id]
