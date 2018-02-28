@@ -1,7 +1,7 @@
 ### Title:    Grand Mean Function & Friends
 ### Author:   Pavel Panko
 ### Created:  2015-MAY-31
-### Modified: 2017-AUG-29
+### Modified: 2018-FEB-28
 
 grandMean <-
     function(data,
@@ -20,13 +20,18 @@ grandMean <-
     ##
     ## I. Set up workspace
     ##
-    ## Check for dplyr in packages 
-    dplyrCheck <- "dplyr" %in% installed.packages()[, "Package"]
-    ## If dplyr is missing, install
-    if(!dplyrCheck)
-        install.packages("dplyr")
+    ## Check for dplyr in packages
+    pkg <- c("rlang", "dplyr")
+    lapply(
+        pkg, function(p) {
+            pkgCheck <- p %in% installed.packages()[, "Package"]
+            ## If dplyr is missing, install
+            if(!pkgCheck)
+                install.packages(p)
+        }
+    )
     ## Load dplyr
-    library(dplyr)    
+    lapply(pkg, library, character.only = TRUE)  
     ## Check for dataframeness 
     if(class(data) != "data.frame")
         stop("Please provide data in 'data.frame' format")
@@ -117,10 +122,17 @@ funList <- list(mean, Mode2)
 ## Function for aggregating data
 aggData <- function(data, subset, func, id) {
     ##
+    if(class(data[id]) == "factor")
+        data[id] <- as.numeric(as.character(data[id]))
+    else if (class(data[id]) == "character")
+        data[id] <- as.numeric(data[id])
+    else if (class(data[id]) != "numeric")
+        stop("Non-numeric id column")
+    ##
     aggData <-
         suppressWarnings(
             data[,c(id,subset)] %>% 
-            group_by_(id) %>%
+            group_by(!!id) %>%
             summarise_all(funs(func))## %>%
             ##select_(paste0("-", id))
         )
