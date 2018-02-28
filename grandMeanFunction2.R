@@ -122,11 +122,11 @@ funList <- list(mean, Mode2)
 ## Function for aggregating data
 aggData <- function(data, subset, func, id) {
     ##
-    if(class(data[id]) == "factor")
-        data[id] <- as.numeric(as.character(data[id]))
-    else if (class(data[id]) == "character")
-        data[id] <- as.numeric(data[id])
-    else if (class(data[id]) != "numeric")
+    idVar <- data[,id]
+    ##
+    if(class(idVar) == "factor"| class(idVar) == "character")
+        data[,id] <- as.numeric(as.character(idVar))
+    else if (class(data[,id]) != "numeric")
         stop("Non-numeric id column")
     ##
     aggData <-
