@@ -122,23 +122,30 @@ funList <- list(mean, Mode2)
 ## Function for aggregating data
 aggData <- function(data, subset, func, id) {
     ##
-    idVar <- data[,id]
-    ##
-    if(class(idVar) == "factor"| class(idVar) == "character")
-        data[,id] <- as.numeric(as.character(idVar))
-    else if (class(data[,id]) != "numeric")
-        stop("Non-numeric id column")
-    ##
-    aggData <-
-        suppressWarnings(
-            data %>%
-            select(matches(paste0(c(id, subset), collapse = "|"))) %>%
-            group_by_(id) %>%
-            summarise_all(funs(func))## %>%
-            ##select_(paste0("-", id))
-        )
-    ##
-    return(aggData)
+    if(is.null(subset)) {
+        ##
+        return(NULL)
+    } else {
+        ##
+        idVar <- data[,id]
+        ##
+        if(class(idVar) == "factor"| class(idVar) == "character") {
+            data[,id] <- as.numeric(as.character(idVar))
+        } else if (class(data[,id]) != "numeric") {
+            stop("Non-numeric id column")
+        }
+        ##
+        aggData <-
+            suppressWarnings(
+                data %>%
+                select(matches(paste0(c(id, subset), collapse = "|"))) %>%
+                group_by_(id) %>%
+                summarise_all(funs(func))## %>%
+                ##select_(paste0("-", id))
+            )
+        ##
+        return(aggData)
+    }
 }
 
 ## Function for calculating column standard deviations
