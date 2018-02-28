@@ -51,8 +51,8 @@ grandMean <-
     idVar <- data[,idName]
     ##
     if(class(idVar) == "factor"| class(idVar) == "character") {
-        data[,id] <- as.numeric(as.character(idVar))
-    } else if (class(data[,id]) != "numeric") {
+        data[,idName] <- as.numeric(as.character(idVar))
+    } else if (class(data[,idName]) != "numeric") {
         stop("Non-numeric id column")
     }
     ##
