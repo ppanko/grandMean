@@ -21,7 +21,7 @@ grandMean <-
     ## I. Set up workspace
     ##
     ## Check for dplyr in packages
-    pkg <- c("rlang", "dplyr")
+    pkg <- c("rlang", "dplyr", "magrittr")
     lapply(
         pkg, function(p) {
             pkgCheck <- p %in% installed.packages()[, "Package"]
@@ -47,6 +47,16 @@ grandMean <-
     ## If lengths differ, produce error
     if(!colNameCheck)
         stop("Please make sure you have labeled all columns")
+    ##
+    idVar <- data[,idName]
+    ##
+    if(class(idVar) == "factor"| class(idVar) == "character") {
+        data[,id] <- as.numeric(as.character(idVar))
+    } else if (class(data[,id]) != "numeric") {
+        stop("Non-numeric id column")
+    }
+    ##
+    data %<>% mutate_if(is.factor, as.character)
     ##
     ## III. Aggregate grand mean
     ##    
@@ -126,14 +136,6 @@ aggData <- function(data, subset, func, id) {
         ##
         return()
     } else {
-        ##
-        idVar <- data[,id]
-        ##
-        if(class(idVar) == "factor"| class(idVar) == "character") {
-            data[,id] <- as.numeric(as.character(idVar))
-        } else if (class(data[,id]) != "numeric") {
-            stop("Non-numeric id column")
-        }
         ##
         aggData <-
             suppressWarnings(
