@@ -131,7 +131,8 @@ aggData <- function(data, subset, func, id) {
     ##
     aggData <-
         suppressWarnings(
-            data[,c(id,subset)] %>% 
+            data %>%
+            filter(matches(paste0(id, subset, collapse = "|")))
             group_by(!!id) %>%
             summarise_all(funs(func))## %>%
             ##select_(paste0("-", id))
