@@ -132,7 +132,7 @@ aggData <- function(data, subset, func, id) {
     aggData <-
         suppressWarnings(
             data %>%
-            filter(matches(paste0(id, subset, collapse = "|")))
+            filter(matches(paste0(id, subset, collapse = "|"))) %>%
             group_by_(id) %>%
             summarise_all(funs(func))## %>%
             ##select_(paste0("-", id))
