@@ -145,7 +145,7 @@ aggData <- function(data, subset, func, id) {
                 data %>%
                 select(matches(paste0(c(id, subset), collapse = "|"))) %>%
                 group_by_(id) %>%
-                summarise_all(funs(func))### %>%
+                summarise_all(funs(func))## %>%
                 ##select_(paste0("-", id))
             )
         ##
