@@ -40,7 +40,10 @@ grandMean <-
     ##
     ## Create objects for name variables   
     allNames <- colnames(data)
-    assign("nameList", list(contNames, discNames))
+    nameList <- list(
+        contNames = contNames,
+        discNames = discNames
+    )
     ## Check specified column names against all column names
     specifiedNames <- c(idName, dropNames, unlist(nameList))
     colNameCheck <- length(specifiedNames) == length(allNames)
