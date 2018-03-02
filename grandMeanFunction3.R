@@ -153,7 +153,7 @@ processNames <- function(dataNames, providedNames) {
 
 processData <- function(data, dropNames) {
     ##
-    if(all(dropNames)) {
+    if(!all(dropNames)) {
         data %<>%
             select(-matches(dropNames))
         ##
