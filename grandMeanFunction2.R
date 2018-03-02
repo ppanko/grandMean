@@ -41,8 +41,10 @@ grandMean <-
     ## Create objects for name variables   
     allNames <- colnames(data)
     nameList <- list(
+        idName    = idName,
         contNames = contNames,
-        discNames = discNames
+        discNames = discNames,
+        dropNames = dropNames
     )
     ## Check specified column names against all column names
     specifiedNames <- c(idName, dropNames, unlist(nameList))
@@ -183,3 +185,25 @@ writeOut <- function(data, file, rows, cols, na, sep) {
         sep       = sep
     )
 }
+
+
+
+list(.vars = lst(cont = contVars, disc = discVars),
+     .funs = lst(mean = mean, mode = Mode2))
+
+with(
+    data = stuffList,
+    expr = list(
+        vars = vars, funs = funs
+    )
+) %>%
+    pmap(
+        ~ data %>%
+            group_by_(idN) %>%
+            summarise_at(.x, .y)
+    ) %>%
+    reduce(inner_join, by = idN)
+
+hi <- list(hi = 1, bye = 2)
+library(magrittr)
+library(dplyr)
