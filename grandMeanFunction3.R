@@ -25,7 +25,8 @@ grandMean <- function(stackedData,
     ##
     processNames(
         dataNames     = names(stackedData),
-        providedNames = providedNamesVec
+        providedNames = providedNamesVec,
+        contNames     = designList$varNames$contNames
     )
     ##
     ## III.  
@@ -151,7 +152,7 @@ processNames <- function(dataNames, providedNames) {
     assign("dataNamesVec", dataNames, envir = parent.frame())
 }
 
-processData <- function(data, dropNames) {
+processData <- function(data, dropNames, contNames) {
     ##
     if(!all(dropNames)) {
         data %<>%
