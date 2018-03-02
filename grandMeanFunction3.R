@@ -107,7 +107,7 @@ processArgs <- function(functionCall) {
             assign("dropNamesVec", paste0(dropNames, collapse = "|"), envir = parent.frame(10))
         } else if (!dropNames) {
             dropExist <<- FALSE
-            assign("dropNamesVec", FALSE, envir = parent.frame(10))
+            assign("dropNamesVec", TRUE, envir = parent.frame(10))
         } 
     ##
     mainArgCheckClass <- map(
