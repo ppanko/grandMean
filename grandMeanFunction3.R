@@ -166,7 +166,7 @@ processData <- function(data, dropNames) {
     checkCont <- all(map_lgl(data[contNames], is.numeric))
     if(!checkCont) {
         warning("Some variables supplied in contNames are non-numeric - setting as numeric")
-        data[contNames] %<>%
+        data[,contNames] %<>%
             mutate_if(is.character, as.numeric)
     }
     ##
