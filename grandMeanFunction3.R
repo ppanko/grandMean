@@ -144,7 +144,7 @@ processNames <- function(dataNames, providedNames) {
         stop("There are duplicates in the provided names")
     } else if (length(dataNames) == length(providedNames)) {
         nameMatch <- any(is.na(match(dataNames, providedNames)))
-        if(!nameMatch) {
+        if(nameMatch) {
             stop("The names in the data and names provided do not line up")
         }
     }
