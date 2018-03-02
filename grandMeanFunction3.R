@@ -25,7 +25,7 @@ grandMean <- function(data,
     ##
     processNames(
         dataNames     = names(data),
-        providedNames = unlist(nameList)
+        providedNames = providedNamesVec
     )
     ##
     ## III.  
@@ -37,11 +37,6 @@ grandMean <- function(data,
     ##
     ## IV. Aggregate grand mean
     ##
-    designList$funsList = list(
-        doMean = doMean,
-        doMode = doMode,
-        doKeep = doKeep
-    )
     ## Perform operation by variable type using the appropriate function
     postData <- aggregateData(
         data      = preData,
@@ -60,9 +55,8 @@ processArgs <- function(functionCall) {
         "idName",    
         "contNames",  
         "discNames",  
-        "dropNames",  
-        "save",       
-        "fileName"
+        "dropNames",
+        "keepNames"
     )
     names(mainArgNames) <- mainArgNames
     ##
@@ -77,22 +71,30 @@ processArgs <- function(functionCall) {
         } else if(!contNames & !discNames) {
             stop("Neither contNames nor discNames provided, please supply one of the two.")
         } else if (!contNames) {
+            contExist <- FALSE
             warning("contNames not provided, will only aggregate across discNames.")
-            cont <- FALSE
         } else if (contNames) {
-            cont <- TRUE
+            contExist <- TRUE
             designList$varNames$contNames <- contNames
+            designList$funList$doMean <- doMean
         } else if (!discNames) {
+            discExist <- FALSE
             warning("discNames not provided, will only aggregate across contNames.")
-            disc <- FALSE
         } else if (discNames) {
-            disc <- TRUE
+            discExist <- TRUE
             designList$varNames$discNames <- discNames
+            designList$funList$doMode <- doMode
+        } else if (!keepNames) {
+            keepExist <- FALSE
         } else if (keepNames) {
+            keepExist <- TRUE
             designList$varNames$keepNames <- keepNames
+            designList$funList$doKeep <- doKeep 
         } else if (!dropNames) {
+            dropExist <- FALSE
             assign("dropNamesVec", FALSE, envir = parent.frame())
         } else if (dropNames) {
+            dropExist <- TRUE
             assign("dropNamesVec", paste0(dropNames, collapse = "|"), envir = parent.frame())
         } 
     ##
@@ -102,17 +104,18 @@ processArgs <- function(functionCall) {
     ) %$%
         if(idName != 'character'|length(id) > 1) {
             stop('Invalid "ID" argument - needs to be a character string of length 1.')
-        } else if(contNames != 'character') {
+        } else if(contExist & contNames != 'character') {
             stop('Invalid "contNames" argument - needs to be a character string.')
-        } else if(discNames != 'character') {
+        } else if(discExist & discNames != 'character') {
             stop('Invalid "discNames" argument - needs to be a character string.')
-        } else if(dropNames != 'character') {
+        } else if(dropExist & dropNames != 'character') {
             stop('Invalid "dropNames" argument - needs to be a character string.') 
-        } else if(save != 'logical'|length(save) > 1) {
-            stop('Invalid "save" argument - needs to be a logical vector of length 1.')
+        } else if(keepNames & keepNames != 'character') {
+            stop('Invalid "keepNames" argument - needs to be a character string.') 
         }
     ##
     assign("designList", designList, envir = parent.frame())
+    assign("providedNamesVec", unlist(designList), envir = parent.frame())
 }
 
 processNames <- function(dataNames, providedNames) {
