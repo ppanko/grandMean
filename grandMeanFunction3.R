@@ -3,7 +3,7 @@
 ### Created:  2018-MAR-01
 ### Modified: 2018-MAR-01
 
-grandMean <- function(data,
+grandMean <- function(stackedData,
                       idName, 
                       contNames   = NULL,
                       discNames   = NULL,
@@ -24,14 +24,14 @@ grandMean <- function(data,
     ## II. 
     ##
     processNames(
-        dataNames     = names(data),
+        dataNames     = names(stackedData),
         providedNames = providedNamesVec
     )
     ##
     ## III.  
     ##
     preData <- processData(
-        data      = data,
+        data      = stackedData,
         dropNames = dropNamesVec
     )
     ##
