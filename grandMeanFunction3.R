@@ -25,15 +25,15 @@ grandMean <- function(stackedData,
     ##
     processNames(
         dataNames     = names(stackedData),
-        providedNames = providedNamesVec,
-        contNames     = designList$varNames$contNames
+        providedNames = providedNamesVec
     )
     ##
     ## III.  
     ##
     preData <- processData(
         data      = stackedData,
-        dropNames = dropNamesVec
+        dropNames = dropNamesVec,
+        contNames = designList$varNames$contNames
     )
     ##
     ## IV. Aggregate grand mean
