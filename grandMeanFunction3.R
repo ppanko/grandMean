@@ -202,8 +202,8 @@ doMode <- function(x) {
     ##
     tab <- table(x, exclude = NULL)
     mode <- names(tab)[tab == max(tab, na.rm = TRUE)]
-    ##
-    if(!is.na(tmpMode)) mode <- tmpMode
+    ## tmpMode <- as.numeric(mode)
+    ## if(!is.na(tmpMode)) mode <- tmpMode
     ##
     if(length(mode) > 1) {
         mode <- mode[sample(1:length(mode), 1)]
