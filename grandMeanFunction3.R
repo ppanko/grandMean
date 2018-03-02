@@ -71,33 +71,44 @@ processArgs <- function(functionCall) {
             stop("Please provide an id name.")
         } else if(!contNames & !discNames) {
             stop("Neither contNames nor discNames provided, please supply one of the two.")
-        } if (contNames) {
-              contExist <<- TRUE
-              designList$varNames$contNames <<- get("contNames", parent.frame(10))
-              designList$funList$doMean <<- get("doMean", parent.frame(10))
-          } if (keepNames) {
-                keepExist <<- TRUE
-                designList$varNames$keepNames <<- get("keepNames", parent.frame(10))
-                designList$funList$doKeep <<- get("doKeep", parent.frame(10))
-            } if (discNames) {
-                  discExist <<- TRUE
-                  designList$varNames$discNames <<- get("discNames", parent.frame(10))
-                  designList$funList$doMode <<- get("doMode", parent.frame(10))
-              } if (!keepNames) {
-                    keepExist <<- FALSE
-                } if (!dropNames) {
-                      dropExist <<- FALSE
-                      assign("dropNamesVec", FALSE, envir = parent.frame(10))
-                  } if (dropNames) {
-                        dropExist <<- TRUE
-                        assign("dropNamesVec", paste0(dropNames, collapse = "|"), envir = parent.frame(10))
-                    } if (!contNames) {
-                          contExist <<- FALSE
-                          warning("contNames not provided, will only aggregate across discNames.")
-                      }  if (!discNames) {
-                             discExist <<- FALSE
-                             warning("discNames not provided, will only aggregate across contNames.")
-                         }    
+        }
+    mainArgCheckLogic %$%
+        if (contNames) {
+            contExist <<- TRUE
+            designList$varNames$contNames <<- get("contNames", parent.frame(10))
+            designList$funList$doMean <<- get("doMean", parent.frame(10))
+        } else if (!contNames) {
+            contExist <<- FALSE
+            warning("contNames not provided, will only aggregate across discNames.")
+        }
+    ##
+    mainArgCheckLogic %$%
+        if (keepNames) {
+            keepExist <<- TRUE
+            designList$varNames$keepNames <<- get("keepNames", parent.frame(10))
+            designList$funList$doKeep <<- get("doKeep", parent.frame(10))
+        } else if (!keepNames) {
+            keepExist <<- FALSE
+        }
+    ##
+    mainArgCheckLogic %$%
+        if (discNames) {
+            discExist <<- TRUE
+            designList$varNames$discNames <<- get("discNames", parent.frame(10))
+            designList$funList$doMode <<- get("doMode", parent.frame(10))
+        } else if (!discNames) {
+            discExist <<- FALSE
+            warning("discNames not provided, will only aggregate across contNames.")
+        }  
+    ##    
+    mainArgCheckLogic %$%
+        if (dropNames) {
+            dropExist <<- TRUE
+            assign("dropNamesVec", paste0(dropNames, collapse = "|"), envir = parent.frame(10))
+        } else if (!dropNames) {
+            dropExist <<- FALSE
+            assign("dropNamesVec", FALSE, envir = parent.frame(10))
+        } 
     ##
     mainArgCheckClass <- map(
         .x = functionCall,
