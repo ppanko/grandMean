@@ -16,19 +16,19 @@ grandMean <- function(stackedData,
     ##
     functionCall <- as.list(sys.call())
     ##
-    ## I. 
+    ## I. Process function arguments 
     ##
     ## Check for dplyr in packages
     processArgs(functionCall)
     ##
-    ## II. 
+    ## II. Process provided names 
     ##
     processNames(
         dataNames     = names(stackedData),
         providedNames = providedNamesVec
     )
     ##
-    ## III.  
+    ## III. Process data classes 
     ##
     preData <- processData(
         data      = stackedData,
@@ -67,12 +67,14 @@ processArgs <- function(functionCall) {
         .x = mainArgNames,
         .f = ~ .x %in% names(functionCall)
     )
+    ##
     mainArgCheckLogic %$%
         if(!idName) {
             stop("Please provide an id name.")
         } else if(!contNames & !discNames) {
             stop("Neither contNames nor discNames provided, please supply one of the two.")
         }
+    ##
     mainArgCheckLogic %$%
         if (contNames) {
             designList$varNames$contNames <<- get("contNames", parent.frame(10))
@@ -80,12 +82,6 @@ processArgs <- function(functionCall) {
         } else if (!contNames) {
             warning("contNames not provided, will only aggregate across discNames.")
         }
-    ##
-    mainArgCheckLogic %$%
-        if (keepNames) {
-            designList$varNames$keepNames <<- get("keepNames", parent.frame(10))
-            designList$funList$doKeep     <<- get("doKeep", parent.frame(10))
-        } 
     ##
     mainArgCheckLogic %$%
         if (discNames) {
@@ -100,6 +96,12 @@ processArgs <- function(functionCall) {
             assign("dropNamesVec", paste0(dropNames, collapse = "|"), envir = parent.frame(10))
         } else if (!dropNames) {
             assign("dropNamesVec", TRUE, envir = parent.frame(10))
+        }
+    ##
+    mainArgCheckLogic %$%
+        if (keepNames) {
+            designList$varNames$keepNames <<- get("keepNames", parent.frame(10))
+            designList$funList$doKeep     <<- get("doKeep", parent.frame(10))
         } 
     ##
     mainArgCheckClass <- map(
@@ -109,14 +111,6 @@ processArgs <- function(functionCall) {
     mainArgCheckClass %$%
         if(idName != 'character'|length(id) > 1) {
             stop('Invalid "ID" argument - needs to be a character string of length 1.')
-            ##   } else if(contExist & contNames != 'character') {
-            ##       stop('Invalid "contNames" argument - needs to be a character string.')
-            ## } else if(discExist & discNames != 'character') {
-            ##     stop('Invalid "discNames" argument - needs to be a character string.')
-            ## } else if(dropExist & dropNames != 'character') {
-            ##     stop('Invalid "dropNames" argument - needs to be a character string.') 
-            ## } else if(keepNames & keepNames != 'character') {
-            ##     stop('Invalid "keepNames" argument - needs to be a character string.') 
         }
     ##
     assign("designList", designList, envir = parent.frame())
@@ -165,6 +159,8 @@ processData <- function(data, dropNames, contNames) {
     return(data)
 }
 
+
+cross()
 
 ## Function for aggregating data
 aggregateData <- function(data, id, design, dataNames) {
