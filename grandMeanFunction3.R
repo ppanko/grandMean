@@ -31,7 +31,7 @@ grandMean <- function(data,
     ## III.  
     ##
     preData <- processData(
-        data      = data
+        data      = data,
         dropNames = dropNamesVec
     )
     ##
