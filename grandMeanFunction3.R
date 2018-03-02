@@ -153,9 +153,11 @@ processNames <- function(dataNames, providedNames) {
 
 processData <- function(data, dropNames) {
     ##
-    if(!all(dropNames)) {
+    if(all(dropNames)) {
         data %<>%
             select(-matches(dropNames))
+        ##
+        assign("dataNamesVec", names(data), envir = parent.frame())
     }
     ##
     data %<>%
