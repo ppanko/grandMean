@@ -106,20 +106,20 @@ processArgs <- function(functionCall) {
     mainArgCheckClass %$%
         if(idName != 'character'|length(id) > 1) {
             stop('Invalid "ID" argument - needs to be a character string of length 1.')
-        } else if(contExist & contNames != 'character') {
-            stop('Invalid "contNames" argument - needs to be a character string.')
-        } else if(discExist & discNames != 'character') {
-            stop('Invalid "discNames" argument - needs to be a character string.')
-        } else if(dropExist & dropNames != 'character') {
-            stop('Invalid "dropNames" argument - needs to be a character string.') 
-        } else if(keepNames & keepNames != 'character') {
-            stop('Invalid "keepNames" argument - needs to be a character string.') 
+            ##   } else if(contExist & contNames != 'character') {
+            ##       stop('Invalid "contNames" argument - needs to be a character string.')
+            ## } else if(discExist & discNames != 'character') {
+            ##     stop('Invalid "discNames" argument - needs to be a character string.')
+            ## } else if(dropExist & dropNames != 'character') {
+            ##     stop('Invalid "dropNames" argument - needs to be a character string.') 
+            ## } else if(keepNames & keepNames != 'character') {
+            ##     stop('Invalid "keepNames" argument - needs to be a character string.') 
         }
     ##
     assign("designList", designList, envir = parent.frame())
     assign("providedNamesVec", unlist(designList), envir = parent.frame())
 }
-
+    
 processNames <- function(dataNames, providedNames) {
     ##
     if(length(dataNames) > length(providedNames)) {
