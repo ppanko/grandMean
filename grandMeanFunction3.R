@@ -75,6 +75,7 @@ processArgs <- function(functionCall) {
             contExist <<- FALSE
             warning("contNames not provided, will only aggregate across discNames.")
         } else if (contNames) {
+            browser()
             contExist <<- TRUE
             designList$varNames$contNames <<- get("contNames", parent.frame(2))
             designList$funList$doMean <<- get("doMean", parent.frame(2))
