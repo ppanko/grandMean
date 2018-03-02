@@ -117,7 +117,7 @@ processArgs <- function(functionCall) {
         }
     ##
     assign("designList", designList, envir = parent.frame())
-    assign("providedNamesVec", unlist(designList), envir = parent.frame())
+    assign("providedNamesVec", c(idName, unlist(designList)), envir = parent.frame())
 }
     
 processNames <- function(dataNames, providedNames) {
