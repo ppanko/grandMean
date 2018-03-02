@@ -65,7 +65,8 @@ processArgs <- function(functionCall) {
     mainArgCheckLogic <- map_lgl(
         .x = mainArgNames,
         .f = ~ .x %in% names(functionCall)
-    ) %$%
+    )
+    mainArgCheckLogic %$%
         if(!idName) {
             stop("Please provide an id name.")
         } else if(!contNames & !discNames) {
@@ -101,7 +102,8 @@ processArgs <- function(functionCall) {
     mainArgCheckClass <- map(
         .x = functionCall,
         .f = class
-    ) %$%
+    )
+    mainArgCheckClass %$%
         if(idName != 'character'|length(id) > 1) {
             stop('Invalid "ID" argument - needs to be a character string of length 1.')
         } else if(contExist & contNames != 'character') {
