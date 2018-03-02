@@ -185,7 +185,7 @@ aggregateData <- function(data, id, design, dataNames) {
                 summarise_at(.x, .y)
         ) %>%
         reduce(inner_join, by = id) %>%
-        select(order(dataNames))
+        select(dataNames)
     ## 
     return(grandMeanData)
 }
