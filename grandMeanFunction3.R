@@ -159,9 +159,6 @@ processData <- function(data, dropNames, contNames) {
     return(data)
 }
 
-
-cross()
-
 ## Function for aggregating data
 aggregateData <- function(data, id, design, dataNames) {
     ##
@@ -207,7 +204,7 @@ doKeep <- function(x) {
 
 ##
 checkPackages <- function() {
-    pkg <- c("rlang", "dplyr", "magrittr")
+    pkg <- c("purrr", "dplyr", "magrittr")
     lapply(
         pkg, function(p) {
             pkgCheck <- p %in% installed.packages()[, "Package"]
