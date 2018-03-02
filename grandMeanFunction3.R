@@ -46,8 +46,8 @@ grandMean <- function(data,
     postData <- aggregateData(
         data      = preData,
         id        = idName,
-        design    = designList
-        dataNames = dataNamesVec, 
+        design    = designList,
+        dataNames = dataNamesVec
     )
     ##
     return(postData)
