@@ -62,7 +62,7 @@ processArgs <- function(functionCall) {
     ##
     designList <- list()
     ##
-    mainArgCheckLogic <- map_lgl(
+    mainArgCheckLogic <- map(
         .x = mainArgNames,
         .f = ~ .x %in% names(functionCall)
     )
