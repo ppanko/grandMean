@@ -76,26 +76,26 @@ processArgs <- function(functionCall) {
             warning("contNames not provided, will only aggregate across discNames.")
         } else if (contNames) {
             contExist <<- TRUE
-            designList$varNames$contNames <<- contNames
-            designList$funList$doMean <<- doMean
+            designList$varNames$contNames <<- get("contNames", parent.frame(2))
+            designList$funList$doMean <<- get("doMean", parent.frame(2))
         } else if (!discNames) {
-            discExist<<- FALSE
+            discExist <<- FALSE
             warning("discNames not provided, will only aggregate across contNames.")
         } else if (discNames) {
-            discExist<<- TRUE
-            designList$varNames$discNames <<- discNames
-            designList$funList$doMode <<- doMode
+            discExist <<- TRUE
+            designList$varNames$discNames <<- get("discNames", parent.frame(2))
+            designList$funList$doMode <<- get("doMode", parent.frame(2))
         } else if (!keepNames) {
-            keepExist<<- FALSE
+            keepExist <<- FALSE
         } else if (keepNames) {
-            keepExist<<- TRUE
-            designList$varNames$keepNames<<- keepNames
-            designList$funList$doKeep<<- doKeep 
+            keepExist <<- TRUE
+            designList$varNames$keepNames <<- get("keepNames", parent.frame(2))
+            designList$funList$doKeep <<- get("doKeep", parent.frame(2))
         } else if (!dropNames) {
-            dropExist<<- FALSE
+            dropExist <<- FALSE
             assign("dropNamesVec", FALSE, envir = parent.frame(2))
         } else if (dropNames) {
-            dropExist<<- TRUE
+            dropExist <<- TRUE
             assign("dropNamesVec", paste0(dropNames, collapse = "|"), envir = parent.frame(2))
         } 
     ##
