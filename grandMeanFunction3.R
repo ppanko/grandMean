@@ -11,7 +11,7 @@ grandMean <- function(stackedData,
                       keepNames   = NULL)
 {
     ##
-    if(class(data) != "data.frame")
+    if(class(stackedData) != "data.frame")
         stop("Please provide data in 'data.frame' format")
     ##
     functionCall <- as.list(sys.call())
