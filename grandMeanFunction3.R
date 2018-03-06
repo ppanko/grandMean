@@ -60,6 +60,7 @@ processArgs <- function(functionCall) {
     names(mainArgNames) <- mainArgNames
     ##
     designList <- list()
+    addNames <- NULL
     ##
     mainArgCheckLogic <- map(
         .x = mainArgNames,
@@ -97,10 +98,9 @@ processArgs <- function(functionCall) {
     ##    
     mainArgCheckLogic %$%
         if (dropNames) {
-            dropNames <- get("dropNames", parent.frame(10))
+            addNames <<- get("dropNames", parent.frame(10))
             assign("dropNamesVec", paste0(dropNames, collapse = "|"), envir = parent.frame(10))
         } else if (!dropNames) {
-            dropNames <<- NULL
             assign("dropNamesVec", TRUE, envir = parent.frame(10))
         }
     ##
@@ -115,7 +115,7 @@ processArgs <- function(functionCall) {
     ##
     assign("designList", designList, envir = parent.frame())
     ##
-    providedNamesVec <- c(functionCall$idName, dropNames, unlist(designList$varNames))
+    providedNamesVec <- c(functionCall$idName, addNames, unlist(designList$varNames))
     assign("providedNamesVec", providedNamesVec, envir = parent.frame())
 }
     
