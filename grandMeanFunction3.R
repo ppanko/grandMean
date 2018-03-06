@@ -97,6 +97,7 @@ processArgs <- function(functionCall) {
     ##    
     mainArgCheckLogic %$%
         if (dropNames) {
+            dropNames <<- get("dropNames", parent.frame(10))
             assign("dropNamesVec", paste0(dropNames, collapse = "|"), envir = parent.frame(10))
         } else if (!dropNames) {
             assign("dropNamesVec", TRUE, envir = parent.frame(10))
