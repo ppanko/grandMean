@@ -1,7 +1,7 @@
 ### Title:    Grand Mean Function & Friends
 ### Author:   Pavel Panko
 ### Created:  2018-MAR-01
-### Modified: 2018-MAR-01
+### Modified: 2018-MAR-05
 
 grandMean <- function(stackedData,
                       idName, 
@@ -18,7 +18,6 @@ grandMean <- function(stackedData,
     ##
     ## I. Process function arguments 
     ##
-    ## Check for dplyr in packages
     processArgs(functionCall)
     ##
     ## II. Process provided names 
@@ -38,7 +37,6 @@ grandMean <- function(stackedData,
     ##
     ## IV. Aggregate grand mean
     ##
-    ## Perform operation by variable type using the appropriate function
     postData <- aggregateData(
         data      = preData,
         id        = idName,
@@ -90,6 +88,12 @@ processArgs <- function(functionCall) {
         } else if (!discNames) {
             warning("discNames not provided, will only aggregate across contNames.")
         }  
+    ##
+    mainArgCheckLogic %$%
+        if (keepNames) {
+            designList$varNames$keepNames <<- get("keepNames", parent.frame(10))
+            designList$funList$doKeep     <<- get("doKeep", parent.frame(10))
+        } 
     ##    
     mainArgCheckLogic %$%
         if (dropNames) {
@@ -97,12 +101,6 @@ processArgs <- function(functionCall) {
         } else if (!dropNames) {
             assign("dropNamesVec", TRUE, envir = parent.frame(10))
         }
-    ##
-    mainArgCheckLogic %$%
-        if (keepNames) {
-            designList$varNames$keepNames <<- get("keepNames", parent.frame(10))
-            designList$funList$doKeep     <<- get("doKeep", parent.frame(10))
-        } 
     ##
     mainArgCheckClass <- map(
         .x = functionCall,
@@ -139,7 +137,7 @@ processNames <- function(dataNames, providedNames) {
 
 processData <- function(data, dropNames, contNames) {
     ##
-    if(!all(dropNames)) {
+    if(!is.logical(dropNames)) {
         data %<>%
             select(-matches(dropNames))
         ##
@@ -208,7 +206,7 @@ checkPackages <- function() {
     lapply(
         pkg, function(p) {
             pkgCheck <- p %in% installed.packages()[, "Package"]
-            ## If dplyr is missing, install
+            ## 
             if(!pkgCheck)
                 install.packages(p)
         }
