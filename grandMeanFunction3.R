@@ -99,7 +99,7 @@ processArgs <- function(functionCall) {
     mainArgCheckLogic %$%
         if (dropNames) {
             addNames <<- get("dropNames", parent.frame(10))
-            assign("dropNamesVec", paste0(addNames, collapse = "|"), envir = parent.frame(10))
+            assign("dropNamesVec", addNames, envir = parent.frame(10))
         } else if (!dropNames) {
             assign("dropNamesVec", TRUE, envir = parent.frame(10))
         }
@@ -142,7 +142,7 @@ processData <- function(data, dropNames, contNames) {
     ##
     if(!is.logical(dropNames)) {
         data %<>%
-            select(-matches(dropNames))
+            select(-one_of(dropNames))
         ##
         assign("dataNamesVec", names(data), envir = parent.frame())
     }
